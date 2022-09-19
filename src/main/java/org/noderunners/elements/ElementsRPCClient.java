@@ -177,4 +177,10 @@ public class ElementsRPCClient implements ElementsClient, BlockchainClient {
             throw new IOException(message);
         }
     }
+
+    @Override
+    public Block getBlock(String hash) throws IOException {
+        return null;
+    }
+
 }
