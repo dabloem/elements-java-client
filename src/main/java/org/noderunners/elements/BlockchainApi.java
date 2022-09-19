@@ -6,8 +6,10 @@ import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcMethod;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcOptional;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcParam;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcService;
+import org.noderunners.elements.model.Block;
 import org.noderunners.elements.model.BlockHeader;
 import org.noderunners.elements.model.BlockchainInfo;
+import org.noderunners.elements.model.ChainTip;
 
 import java.util.Map;
 

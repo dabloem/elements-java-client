@@ -1,4 +1,4 @@
-package org.noderunners.elements;
+package org.noderunners.elements.model;
 
 public class ChainTip {
         public int height;

@@ -1,4 +1,4 @@
-package org.noderunners.elements;
+package org.noderunners.elements.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
