@@ -1,4 +1,4 @@
-package org.noderunners.elements;
+package org.noderunners.elements.transport;
 
 import com.github.arteam.simplejsonrpc.client.Transport;
 import okhttp3.*;

@@ -2,10 +2,12 @@ package org.noderunners.elements;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.arteam.simplejsonrpc.client.JsonRpcClient;
+import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.noderunners.elements.model.BlockchainInfo;
+import org.noderunners.elements.transport.OkHttpTransport;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,7 +16,7 @@ class ElementsBlockChainClientTest {
 
     private static MockWebServer mockWebServer;
 
-    private static ElementsBlockChainClient client;
+    private static ElementsBlockChainClient elementsBlockChainClient;
 
 
     @BeforeAll
@@ -22,6 +24,9 @@ class ElementsBlockChainClientTest {
         mockWebServer = new MockWebServer();
         mockWebServer.start();
 
+        elementsBlockChainClient = new ElementsBlockChainClient(
+                new OkHttpTransport(mockWebServer.url("/").toString(), "dXNlcjpwYXNzd29yZA=="));
+//                new OkHttpTransport("http://192.168.178.153:7041", "ZWxlbWVudHM6OWNkYTY2Nzg0ZWFjMjU2MTU1YzZmYTEyNjhhMWM1YThkODFkYTFmMjM5YTYzM2VjYTY3MjY3ODQwNjJhNDVlMw=="));
 //        client = new HttpClientBlockChainClient(mockWebServer.url("/").toString(), "dXNlcjpwYXNzd29yZA==");
     }
 
@@ -89,10 +94,20 @@ class ElementsBlockChainClientTest {
 
     @Test
     public void realTests() throws JsonProcessingException {
-        ElementsBlockChainClient elementsBlockChainClient = new ElementsBlockChainClient(
-                new OkHttpTransport("http://192.168.178.153:7041", "ZWxlbWVudHM6OWNkYTY2Nzg0ZWFjMjU2MTU1YzZmYTEyNjhhMWM1YThkODFkYTFmMjM5YTYzM2VjYTY3MjY3ODQwNjJhNDVlMw=="));
+//        ElementsBlockChainClient elementsBlockChainClient = new ElementsBlockChainClient(
+//                new OkHttpTransport("http://192.168.178.153:7041", "ZWxlbWVudHM6OWNkYTY2Nzg0ZWFjMjU2MTU1YzZmYTEyNjhhMWM1YThkODFkYTFmMjM5YTYzM2VjYTY3MjY3ODQwNjJhNDVlMw=="));
 
         JsonRpcClient client = elementsBlockChainClient.getClient(); //for raw/non-type safe responses
+
+//        Object uptime = client.onDemand(ControlApi.class).getrpcinfo();
+
+        //GIVEN
+        MockResponse mockedResponse = new MockResponse()
+                .setBody("""
+                {"result": {"chain":"mainnet", "bestblockhash":"7ac81fb0c02910a702cae81d780254f08ae271d9ef20a0fd66178d30c47c4e4d"},"error":null,"id":"curltest"}
+                """) //Sample
+                .addHeader("Content-Type", "text/plain");
+        mockWebServer.enqueue(mockedResponse);
 
         //Type-safe
         BlockchainInfo blockchainInfo = elementsBlockChainClient.getBlockchainInfo(); // *Example* for type safe responses
